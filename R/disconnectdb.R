@@ -2,13 +2,13 @@
 #' @export
 disconnectdb <- function() {
     if (Sys.getenv("IN_JDBC_URL") != Sys.getenv("OUT_JDBC_URL")
-        && out_conn != null) {
+        && exists("out_conn") && !is.null(out_conn)) {
       RJDBC::dbDisconnect(out_conn)
     }
-    if (in_conn != null) {
+    if (exists("in_conn") && !is.null(in_conn)) {
       RJDBC::dbDisconnect(in_conn)
     }
 
-    in_conn <- NULL
-    out_conn <- NULL
+    in_conn <<- NULL
+    out_conn <<- NULL
 }
