@@ -4,7 +4,7 @@
 \alias{disconnectdb}
 \title{Disconnect from the databases}
 \usage{
-disconnectdb(in_conn, out_conn)
+disconnectdb()
 }
 \description{
 Disconnect from the databases
