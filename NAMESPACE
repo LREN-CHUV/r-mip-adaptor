@@ -2,5 +2,5 @@
 
 export(connect2indb)
 export(connect2outdb)
-export(disconnectdb)
+export(disconnectdbs)
 import(RJDBC)

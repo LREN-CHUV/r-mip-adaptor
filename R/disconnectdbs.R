@@ -1,6 +1,6 @@
 #' Disconnect from the databases
 #' @export
-disconnectdb <- function() {
+disconnectdbs <- function() {
     if (Sys.getenv("IN_JDBC_URL") != Sys.getenv("OUT_JDBC_URL")
         && exists("out_conn") && !is.null(out_conn)) {
       RJDBC::dbDisconnect(out_conn)
