@@ -17,7 +17,7 @@ querydb <- function(query) {
 		query <- Sys.getenv("PARAM_query");
 	}
 
-	if (!exists("in_conn") || is.null(in_conn) {
+	if (!exists("in_conn") || is.null(in_conn)) {
 		connect2indb();
 	}
 

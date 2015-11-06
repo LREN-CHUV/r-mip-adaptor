@@ -15,7 +15,7 @@
 #' @export
 saveResults <- function(results) {
 
-    if (!exists("out_conn") || is.null(in_conn) {
+    if (!exists("out_conn") || is.null(in_conn)) {
         connect2outdb();
     }
 

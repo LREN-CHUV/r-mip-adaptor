@@ -5,8 +5,12 @@ Authors@R: person("Ludovic", "Claude", email = "Ludovic.Claude@chuv.ch", role = 
 Author: Ludovic Claude [aut, cre]
 Maintainer: Ludovic Claude <Ludovic.Claude@chuv.ch>
 Description: What the package does (one paragraph).
-Depends: R (>= 3.2.1)
-Imports: RJDBC
+Depends:
+    R (>= 3.2.1)
+Imports:
+    RJDBC
 License: MIT
 LazyData: true
-Suggests: testthat
+Suggests:
+    testthat
+RoxygenNote: 5.0.0
