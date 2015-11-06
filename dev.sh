@@ -27,6 +27,6 @@ echo "-----------------------------------------"
 # assuming that current folder contains the data
 docker run -v $WORK_DIR:/home/docker/data:rw \
     -i -t --rm --name r-dev \
-    registry.federation.mip.hbp/hbp_tools/r-interactive R
+    registry.federation.mip.hbp/mip_tools/r-interactive R
 
 sudo chown -R $USER:$USER $WORK_DIR

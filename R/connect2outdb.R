@@ -1,4 +1,13 @@
-
+#' Connect to the output database
+#'
+#' Environment variables:
+#' 
+#' - Execution context:
+#'      OUT_JDBC_DRIVER : class name of the JDBC driver for output results
+#'      OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results
+#'      OUT_JDBC_URL : JDBC connection URL for output results
+#'      OUT_JDBC_USER : User for the database connection for output results
+#'      OUT_JDBC_PASSWORD : Password for the database connection for output results
 #' @export
 connect2outdb <- function() {
     # Export global out_conn and out_drv
