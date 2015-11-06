@@ -11,6 +11,7 @@
 #'      OUT_JDBC_URL : JDBC connection URL for output results
 #'      OUT_JDBC_USER : User for the database connection for output results
 #'      OUT_JDBC_PASSWORD : Password for the database connection for output results
+#' @param results The results to store in the database. The following types are supported: data frame, matrix, string.
 #' @export
 saveResults <- function(results) {
 
