@@ -33,8 +33,7 @@ saveResults <- function(results) {
         json <- toJSON(results);
     }
 
-    dbresults <- data.frame(job_id = job_id, node = node, timestamp = as.numeric(Sys.time()) * 1000,
-                 data = json);
+    dbresults <- data.frame(job_id = job_id, node = node, data = toString(json));
 
     RJDBC::dbWriteTable(out_conn, result_table, dbresults, overwrite=FALSE, append=TRUE, row.names = FALSE)
 
