@@ -3,7 +3,7 @@
 export(connect2indb)
 export(connect2outdb)
 export(disconnectdbs)
-export(querydb)
+export(fetchData)
 export(saveResults)
 import(RJDBC)
 import(jsonlite)

@@ -12,7 +12,7 @@
 #'      IN_JDBC_PASSWORD : Password for the database connection for input data
 #' @param query The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query
 #' @export
-querydb <- function(query) {
+fetchData <- function(query) {
 	if (missing(query)) {
 		query <- Sys.getenv("PARAM_query");
 	}
