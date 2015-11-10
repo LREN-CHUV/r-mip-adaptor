@@ -2,6 +2,6 @@
 #'
 #' @import RJDBC jsonlite
 #' @aliases hbpjdbcconnect package-hbpjdbcconnect
-#' @title HBP - Databas connections
+#' @title HBP - Database connections
 #' @name hbpjdbcconnect
 NULL
