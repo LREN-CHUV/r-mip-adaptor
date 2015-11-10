@@ -40,7 +40,7 @@ connect2indb <- function(jdbcDriver, jarPath, url, user, password, schema) {
     # Export global in_conn and in_drv
 
     in_drv <<- RJDBC::JDBC(jdbcDriver, jarPath, identifier.quote = "`");
-    in_conn <<- RJDBC::dbConnect(in_drv, url, user, password);
+    in_conn <<- RJDBC::dbConnect(in_drv, url, user=user, password=password);
 
     if (schema != "") {
         RJDBC::dbSendUpdate(in_conn, paste("SET search_path TO '", schema, "'", sep = ""));
