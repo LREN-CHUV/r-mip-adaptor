@@ -39,9 +39,7 @@ saveResults <- function(results, jobId, node, resultTable) {
         json <- toJSON(results);
     }
 
-    dbresults <- data.frame(job_id = jobId, node = node, data = toString(json));
-
-    RJDBC::dbWriteTable(out_conn, resultTable, dbresults, overwrite=FALSE, append=TRUE, row.names = FALSE);
+    RJDBC::dbSendUpdate(out_conn, paste("INSERT INTO", resultTable, "(job_id, node, data) values (?, ?, ?)"), jobId, node, toString(json));
 
     # Disconnect from the databases
     disconnectdbs();

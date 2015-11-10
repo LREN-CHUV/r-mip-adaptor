@@ -74,7 +74,7 @@ connect2outdb <- function(inJdbcDriver, inJarPath, inUrl, inUser, outJdbcDriver,
         out_conn <<- RJDBC::dbConnect(out_drv, outUrl, outUser, outPassword);
 
         if (outSchema != "") {
-            RJDBC::dbSendUpdate(out_conn,paste("SET search_path TO '", outSchema, "'", sep = ""));
+            RJDBC::dbSendUpdate(out_conn, paste("SET search_path TO '", outSchema, "'", sep = ""));
         }
 
     } else {
