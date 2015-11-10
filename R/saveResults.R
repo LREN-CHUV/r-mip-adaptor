@@ -30,13 +30,13 @@ saveResults <- function(results, jobId, node, resultTable) {
     }
 
     if (is.data.frame(results)) {
-        json <- toJSON(results, dataset="columns");
+        json <- toJSON(results, dataset="columns", digits=8);
     } else if (is.matrix(results) ) {
-        json <- toJSON(results, matrix="rowmajor");
+        json <- toJSON(results, matrix="rowmajor", digits=8);
     } else if (is.character(results) ) {
         json <- results;
     } else {
-        json <- toJSON(results);
+        json <- toJSON(results, digits=8);
     }
 
     RJDBC::dbSendUpdate(out_conn, paste("INSERT INTO", resultTable, "(job_id, node, data) values (?, ?, ?)"), jobId, node, toString(json));
