@@ -13,15 +13,21 @@
 #'      OUT_JDBC_PASSWORD : Password for the database connection for output results
 #' @param results The results to store in the database. The following types are supported: data frame, matrix, string.
 #' @export
-saveResults <- function(results) {
+saveResults <- function(results, jobId, node, resultTable) {
 
     if (!exists("out_conn") || is.null(in_conn)) {
         connect2outdb();
     }
 
-    job_id       <- Sys.getenv("JOB_ID");
-    node         <- Sys.getenv("NODE");
-    result_table <- Sys.getenv("RESULT_TABLE", "job_result");
+    if (missing(jobId)) {
+      jobId <- Sys.getenv("JOB_ID");
+    }
+    if (missing(node)) {
+      node <- Sys.getenv("NODE");
+    }
+    if (missing(resultTable)) {
+      resultTable <- Sys.getenv("RESULT_TABLE", "job_result");
+    }
 
     if (is.data.frame(results)) {
         json <- toJSON(results, dataset="columns");
@@ -33,11 +39,11 @@ saveResults <- function(results) {
         json <- toJSON(results);
     }
 
-    dbresults <- data.frame(job_id = job_id, node = node, data = toString(json));
+    dbresults <- data.frame(job_id = jobId, node = node, data = toString(json));
 
-    RJDBC::dbWriteTable(out_conn, result_table, dbresults, overwrite=FALSE, append=TRUE, row.names = FALSE)
+    RJDBC::dbWriteTable(out_conn, resultTable, dbresults, overwrite=FALSE, append=TRUE, row.names = FALSE);
 
     # Disconnect from the databases
-    disconnectdbs()
+    disconnectdbs();
 
 }

@@ -4,17 +4,42 @@
 \alias{connect2outdb}
 \title{Connect to the output database}
 \usage{
-connect2outdb()
+connect2outdb(inJdbcDriver, inJarPath, inUrl, inUser, outJdbcDriver, outJarPath,
+  outUrl, outUser, outPassword, outSchema)
+}
+\arguments{
+\item{inJdbcDriver}{Class name of the JDBC driver for input data, defaults to the value of environment parameter IN_JDBC_DRIVER}
+
+\item{inJarPath}{Path to the JDBC driver jar for input data, defaults to the value of environment parameter IN_JDBC_JAR_PATH}
+
+\item{inUrl}{JDBC connection URL for input data, defaults to the value of environment parameter IN_JDBC_URL}
+
+\item{inUser}{User for the database connection for input data, defaults to the value of environment parameter IN_JDBC_USER}
+
+\item{outJdbcDriver}{Class name of the JDBC driver for output data, defaults to the value of environment parameter OUT_JDBC_DRIVER}
+
+\item{outJarPath}{Path to the JDBC driver jar for output data, defaults to the value of environment parameter OUT_JDBC_JAR_PATH}
+
+\item{outUrl}{JDBC connection URL for output data, defaults to the value of environment parameter OUT_JDBC_URL}
+
+\item{outUser}{User for the database connection for output data, defaults to the value of environment parameter OUT_JDBC_USER}
+
+\item{outPassword}{Password for the database connection for output data, defaults to the value of environment parameter OUT_JDBC_PASSWORD}
+
+\item{outSchema}{Optional schema by default for the database connection for output data, defaults to the value of environment parameter OUT_JDBC_SCHEMA}
 }
 \description{
 Environment variables:
-}
-\details{
 - Execution context:
-     OUT_JDBC_DRIVER : class name of the JDBC driver for output results
-     OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results
+     IN_JDBC_DRIVER : Class name of the JDBC driver for input data
+     IN_JDBC_JAR_PATH : Path to the JDBC driver jar for input data
+     IN_JDBC_URL : JDBC connection URL for input data
+     IN_JDBC_USER : User for the database connection for input data
+     OUT_JDBC_DRIVER : Class name of the JDBC driver for output results
+     OUT_JDBC_JAR_PATH : Path to the JDBC driver jar for output results
      OUT_JDBC_URL : JDBC connection URL for output results
      OUT_JDBC_USER : User for the database connection for output results
      OUT_JDBC_PASSWORD : Password for the database connection for output results
+     OUT_JDBC_SCHEMA : Optional schema by default for the database connection for output data
 }
 

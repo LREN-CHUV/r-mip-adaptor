@@ -4,17 +4,29 @@
 \alias{connect2indb}
 \title{Connect to the input database}
 \usage{
-connect2indb()
+connect2indb(jdbcDriver, jarPath, url, user, password, schema)
+}
+\arguments{
+\item{jdbcDriver}{Class name of the JDBC driver for input data, defaults to the value of environment parameter IN_JDBC_DRIVER}
+
+\item{jarPath}{Path to the JDBC driver jar for input data, defaults to the value of environment parameter IN_JDBC_JAR_PATH}
+
+\item{url}{JDBC connection URL for input data, defaults to the value of environment parameter IN_JDBC_URL}
+
+\item{user}{User for the database connection for input data, defaults to the value of environment parameter IN_JDBC_USER}
+
+\item{password}{Password for the database connection for input data, defaults to the value of environment parameter IN_JDBC_PASSWORD}
+
+\item{schema}{Optional schema by default for the database connection for input data, defaults to the value of environment parameter IN_JDBC_SCHEMA}
 }
 \description{
 Environment variables:
-}
-\details{
 - Execution context:
-     IN_JDBC_DRIVER : class name of the JDBC driver for input data
-     IN_JDBC_JAR_PATH : path to the JDBC driver jar for input data
+     IN_JDBC_DRIVER : Class name of the JDBC driver for input data
+     IN_JDBC_JAR_PATH : Path to the JDBC driver jar for input data
      IN_JDBC_URL : JDBC connection URL for input data
      IN_JDBC_USER : User for the database connection for input data
      IN_JDBC_PASSWORD : Password for the database connection for input data
+     IN_JDBC_SCHEMA : Optional schema by default for the database connection for input data
 }
 

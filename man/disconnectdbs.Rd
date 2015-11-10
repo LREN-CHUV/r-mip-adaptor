@@ -4,9 +4,17 @@
 \alias{disconnectdbs}
 \title{Disconnect from the databases}
 \usage{
-disconnectdbs()
+disconnectdbs(inUrl, outUrl)
+}
+\arguments{
+\item{inUrl}{JDBC connection URL for input data, defaults to the value of environment parameter IN_JDBC_URL}
+
+\item{outUrl}{JDBC connection URL for output data, defaults to the value of environment parameter OUT_JDBC_URL}
 }
 \description{
-Disconnect from the databases
+Environment variables:
+- Execution context:
+     IN_JDBC_URL : JDBC connection URL for input data
+     OUT_JDBC_URL : JDBC connection URL for output results
 }
 

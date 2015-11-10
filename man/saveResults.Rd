@@ -4,7 +4,7 @@
 \alias{saveResults}
 \title{Save the results into the output database}
 \usage{
-saveResults(results)
+saveResults(results, jobId, node, resultTable)
 }
 \arguments{
 \item{results}{The results to store in the database. The following types are supported: data frame, matrix, string.}

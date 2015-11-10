@@ -10,6 +10,7 @@
 #'      IN_JDBC_URL : JDBC connection URL for input data
 #'      IN_JDBC_USER : User for the database connection for input data
 #'      IN_JDBC_PASSWORD : Password for the database connection for input data
+#'      IN_JDBC_SCHEMA : Optional schema by default for the database connection for input data
 #' @param query The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query
 #' @export
 fetchData <- function(query) {
