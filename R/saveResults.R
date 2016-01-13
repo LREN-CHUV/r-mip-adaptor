@@ -5,6 +5,8 @@
 #' - Execution context:
 #'      JOB_ID : ID of the job
 #'      NODE : Node used for the execution of the script
+#'      OUT_FORMAT : Hint for the exact shape of the Json stored in the database.
+#'        Current values are INTERMEDIATE_RESULTS, PRESENTATION
 #'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
 #'      OUT_JDBC_DRIVER : class name of the JDBC driver for output results
 #'      OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results
@@ -32,17 +34,27 @@ saveResults <- function(results, jobId, node, resultTable) {
       resultTable <- Sys.getenv("RESULT_TABLE", "job_result");
     }
 
+    shape <- "generic"
     if (is.data.frame(results)) {
-        json <- toJSON(results, dataset="columns", digits=8);
+        if (Sys.getenv("OUT_FORMAT", "") == "INTERMEDIATE_RESULTS") {
+            shape <- "r_dataframe_intermediate"
+            json <- toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601");
+        } else {
+            shape <- "r_dataframe_columns"
+            json <- toJSON(results, dataframe="columns", digits=8, Date = "ISO8601");
+        }
     } else if (is.matrix(results) ) {
+        shape <- "r_matrix"
         json <- toJSON(results, matrix="rowmajor", digits=8);
     } else if (is.character(results) ) {
+        shape <- "string"
         json <- results;
     } else {
-        json <- toJSON(results, digits=8);
+        shape <- "r_other"
+        json <- toJSON(results, digits=8, Date = "ISO8601");
     }
 
-    RJDBC::dbSendUpdate(out_conn, paste("INSERT INTO", resultTable, "(job_id, node, data) values (?, ?, ?)"), jobId, node, toString(json));
+    RJDBC::dbSendUpdate(out_conn, paste("INSERT INTO", resultTable, "(job_id, node, data, shape) values (?, ?, ?, ?)"), jobId, node, toString(json), shape);
 
     # Disconnect from the databases
     disconnectdbs();
