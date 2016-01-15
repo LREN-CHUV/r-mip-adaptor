@@ -1,25 +1,5 @@
-#!/bin/bash
-
-WORK_DIR="$(pwd)"
-shift
-
-if groups $USER | grep &>/dev/null '\bdocker\b'; then
-  DOCKER="docker"
-else
-  DOCKER="sudo docker"
-fi
-
-sudo chmod -R a+rw $WORK_DIR
-
-$DOCKER rm r-test 2> /dev/null | true
-
-./tests/analytics-db/start-db.sh
-./tests/dummy-db/start-db.sh
-
-# Bind mount your data
-# assuming that current folder contains the data
-$DOCKER run -v $WORK_DIR:/home/docker/data:rw \
-    -v $WORK_DIR/tests/local:/home/docker/data/tests \
+docker run -v (pwd):/home/docker/data:rw \
+    -v (pwd)/tests/local:/home/docker/data/tests \
     --rm --name r-test \
     --link dummydb:indb \
     --link analyticsdb:outdb \
@@ -37,10 +17,10 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
     -e OUT_FORMAT=INTERMEDIATE_RESULTS \
-    registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
+    registry.federation.mip.hbp/mip_tools/r-interactive check-package
 
-$DOCKER run -v $WORK_DIR:/home/docker/data:rw \
-    -v $WORK_DIR/tests/local:/home/docker/data/tests \
+docker run -i -t -v (pwd):/home/docker/data:rw \
+    -v (pwd)/tests/local:/home/docker/data/tests \
     --rm --name r-test \
     --link analyticsdb:indb \
     --link analyticsdb:outdb \
@@ -58,9 +38,4 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
-    registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
-
-sudo chown -R $USER:$USER $WORK_DIR
-
-./tests/analytics-db/stop-db.sh
-./tests/dummy-db/stop-db.sh
+    registry.federation.mip.hbp/mip_tools/r-interactive R

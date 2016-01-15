@@ -3,7 +3,7 @@
 \name{hbpjdbcconnect}
 \alias{hbpjdbcconnect}
 \alias{package-hbpjdbcconnect}
-\title{HBP - Databas connections}
+\title{HBP - Database connections}
 \description{
 JDBC connection management
 }

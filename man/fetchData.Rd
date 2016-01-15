@@ -4,10 +4,12 @@
 \alias{fetchData}
 \title{Fetch data from the input database}
 \usage{
-fetchData(query)
+fetchData(query, inFormat)
 }
 \arguments{
 \item{query}{The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query}
+
+\item{inFormat}{Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT}
 }
 \description{
 Environment variables:
@@ -16,6 +18,8 @@ Environment variables:
 - Input Parameters:
      PARAM_query  : SQL query producing the dataframe to analyse
 - Execution context:
+     IN_FORMAT : Hint for the exact shape of the data stored in the database.
+       Possible values are INTERMEDIATE_RESULTS, OTHER
      IN_JDBC_DRIVER : class name of the JDBC driver for input data
      IN_JDBC_JAR_PATH : path to the JDBC driver jar for input data
      IN_JDBC_URL : JDBC connection URL for input data

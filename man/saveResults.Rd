@@ -8,6 +8,12 @@ saveResults(results, jobId, node, resultTable)
 }
 \arguments{
 \item{results}{The results to store in the database. The following types are supported: data frame, matrix, string.}
+
+\item{jobId}{ID of the job, defaults to the value of environment parameter JOB_ID}
+
+\item{node}{Node used for the execution of the script, defaults to the value of environment parameter NODE}
+
+\item{resultTable}{Name of the result table, defaults to the value of environment parameter RESULT_TABLE}
 }
 \description{
 Environment variables:
@@ -16,7 +22,9 @@ Environment variables:
 - Execution context:
      JOB_ID : ID of the job
      NODE : Node used for the execution of the script
-     RESULT_TABLE: name of the result table, defaults to 'job_result'
+     OUT_FORMAT : Hint for the exact shape of the Json stored in the database.
+       Current values are INTERMEDIATE_RESULTS, PRESENTATION
+     RESULT_TABLE: Name of the result table, defaults to 'job_result'
      OUT_JDBC_DRIVER : class name of the JDBC driver for output results
      OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results
      OUT_JDBC_URL : JDBC connection URL for output results

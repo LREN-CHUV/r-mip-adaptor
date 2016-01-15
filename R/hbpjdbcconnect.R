@@ -1,6 +1,7 @@
 #' JDBC connection management
 #'
-#' @import RJDBC jsonlite
+#' @import RJDBC
+#' @import jsonlite
 #' @aliases hbpjdbcconnect package-hbpjdbcconnect
 #' @title HBP - Database connections
 #' @name hbpjdbcconnect

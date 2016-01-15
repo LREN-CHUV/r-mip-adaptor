@@ -6,11 +6,9 @@ Author: Ludovic Claude [aut, cre]
 Maintainer: Ludovic Claude <Ludovic.Claude@chuv.ch>
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.2.1)
-Imports:
-    RJDBC
+    R (>= 3.2.1), RJDBC, jsonlite
 License: MIT
 LazyData: true
 Suggests:
     testthat
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1
