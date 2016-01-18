@@ -34,20 +34,20 @@ saveResults <- function(results, jobId, node, resultTable) {
       resultTable <- Sys.getenv("RESULT_TABLE", "job_result");
     }
 
-    shape <- "generic"
+    shape <- "generic";
     if (is.data.frame(results)) {
         if (Sys.getenv("OUT_FORMAT", "") == "INTERMEDIATE_RESULTS") {
-            shape <- "r_dataframe_intermediate"
+            shape <- "r_dataframe_intermediate";
             json <- toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601");
         } else {
-            shape <- "r_dataframe_columns"
+            shape <- "r_dataframe_columns";
             json <- toJSON(results, dataframe="columns", digits=8, Date = "ISO8601");
         }
     } else if (is.matrix(results) ) {
-        shape <- "r_matrix"
+        shape <- "r_matrix";
         json <- toJSON(results, matrix="rowmajor", digits=8);
     } else if (is.character(results) ) {
-        shape <- "string"
+        shape <- "string";
         json <- results;
     } else {
         shape <- "r_other"

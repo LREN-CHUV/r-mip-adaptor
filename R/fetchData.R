@@ -32,12 +32,14 @@ fetchData <- function(query, inFormat) {
     y <- RJDBC::dbGetQuery(in_conn, query);
 
     if (inFormat == "INTERMEDIATE_RESULTS") {
-        yjson <- lapply(y[,'data'], fromJSON)
+        yjson <- lapply(y[,'data'], fromJSON);
         if (y[1, "shape"] == "r_dataframe_intermediate") {
-            y <- lapply(yjson, as.data.frame)
+            y <- lapply(yjson, as.data.frame);
+        } else {
+            y <- yjson;
         }
         if (length(y) == 1) {
-            y <- y[[1]]
+            y <- y[[1]];
         }
     }
 
