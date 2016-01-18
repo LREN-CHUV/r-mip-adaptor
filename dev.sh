@@ -13,8 +13,12 @@ sudo chmod -R a+rw $WORK_DIR
 
 $DOCKER rm r-dev 2> /dev/null | true
 
+echo "Starting the results database..."
 ./tests/analytics-db/start-db.sh
+echo
+echo "Starting the test database..."
 ./tests/dummy-db/start-db.sh
+echo
 
 echo "Cheat sheet - run the following commands:"
 echo
@@ -35,8 +39,6 @@ echo "  Setup the package to use testthat"
 echo
 echo "-----------------------------------------"
 
-# Bind mount your data
-# assuming that current folder contains the data
 $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -i -t --rm --name r-dev \
     --link dummydb:indb \

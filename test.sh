@@ -1,7 +1,6 @@
-#!/bin/bash
+#!/bin/bash -e
 
 WORK_DIR="$(pwd)"
-shift
 
 if groups $USER | grep &>/dev/null '\bdocker\b'; then
   DOCKER="docker"
@@ -13,13 +12,17 @@ sudo chmod -R a+rw $WORK_DIR
 
 $DOCKER rm r-test 2> /dev/null | true
 
+echo "Starting the results database..."
 ./tests/analytics-db/start-db.sh
+echo
+echo "Starting the test database..."
 ./tests/dummy-db/start-db.sh
+echo
 
-# Bind mount your data
-# assuming that current folder contains the data
+echo "> Test local node storing results as a dataset"
+echo
 $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
-    -v $WORK_DIR/tests/local:/home/docker/data/tests \
+    -v $WORK_DIR/tests/test_local_dataset:/home/docker/data/tests \
     --rm --name r-test \
     --link dummydb:indb \
     --link analyticsdb:outdb \
@@ -39,8 +42,12 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_FORMAT=INTERMEDIATE_RESULTS \
     registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
 
+echo
+echo "> Test federation node reading a dataset and storing this dataset as final result"
+echo
+
 $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
-    -v $WORK_DIR/tests/local:/home/docker/data/tests \
+    -v $WORK_DIR/tests/test_federation_dataset:/home/docker/data/tests \
     --rm --name r-test \
     --link analyticsdb:indb \
     --link analyticsdb:outdb \
@@ -64,3 +71,6 @@ sudo chown -R $USER:$USER $WORK_DIR
 
 ./tests/analytics-db/stop-db.sh
 ./tests/dummy-db/stop-db.sh
+
+echo
+echo "[ok] Success!"
