@@ -17,27 +17,27 @@
 #' @param inFormat Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT
 #' @export
 fetchData <- function(query, inFormat) {
-	if (missing(query)) {
-		query <- Sys.getenv("PARAM_query");
-	}
-	if (missing(inFormat)) {
-		inFormat <- Sys.getenv("IN_FORMAT", "OTHER");
-	}
+    if (missing(query)) {
+        query <- Sys.getenv("PARAM_query");
+    }
+    if (missing(inFormat)) {
+        inFormat <- Sys.getenv("IN_FORMAT", "OTHER");
+    }
 
-	if (!exists("in_conn") || is.null(in_conn)) {
-		connect2indb();
-	}
+    if (!exists("in_conn") || is.null(in_conn)) {
+        connect2indb();
+    }
 
-	# Fetch the data
+    # Fetch the data
     y <- RJDBC::dbGetQuery(in_conn, query);
 
     if (inFormat == "INTERMEDIATE_RESULTS") {
         yjson <- lapply(y[,'data'], fromJSON)
         if (y[1, "shape"] == "r_dataframe_intermediate") {
-          y <- lapply(yjson, as.data.frame)
-          if (length(y) == 1) {
-          	y <- y[[1]]
-          }
+            y <- lapply(yjson, as.data.frame)
+        }
+        if (length(y) == 1) {
+            y <- y[[1]]
         }
     }
 
