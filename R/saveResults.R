@@ -17,8 +17,10 @@
 #' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
 #' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE
 #' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
+#' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
+#' @param shape Hint about the shape of the data
 #' @export
-saveResults <- function(results, jobId, node, resultTable) {
+saveResults <- function(results, jobId, node, resultTable, outFormat, shape) {
 
     if (!exists("out_conn") || is.null(in_conn)) {
         connect2outdb();
@@ -33,26 +35,33 @@ saveResults <- function(results, jobId, node, resultTable) {
     if (missing(resultTable)) {
       resultTable <- Sys.getenv("RESULT_TABLE", "job_result");
     }
-
-    shape <- "generic";
-    if (is.data.frame(results)) {
-        if (Sys.getenv("OUT_FORMAT", "") == "INTERMEDIATE_RESULTS") {
-            shape <- "r_dataframe_intermediate";
-            json <- toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601");
-        } else {
-            shape <- "r_dataframe_columns";
-            json <- toJSON(results, dataframe="columns", digits=8, Date = "ISO8601");
-        }
-    } else if (is.matrix(results) ) {
-        shape <- "r_matrix";
-        json <- toJSON(results, matrix="rowmajor", digits=8);
-    } else if (is.character(results) ) {
-        shape <- "string";
-        json <- results;
-    } else {
-        shape <- "r_other"
-        json <- toJSON(results, digits=8, Date = "ISO8601");
+    if (missing(outFormat)) {
+      outFormat <- Sys.getenv("OUT_FORMAT", "PRESENTATION");
     }
+    if (missing(shape)) {
+      shape <- switch(outFormat,
+         INTERMEDIATE_RESULTS = "r_other_intermediate",
+         "r_other");
+
+      if (is.data.frame(results)) {
+        shape <- switch(outFormat,
+            INTERMEDIATE_RESULTS = "r_dataframe_intermediate",
+            "r_dataframe_columns");
+      } else if (is.matrix(results) ) {
+          shape <- "r_matrix";
+      } else if (is.character(results) ) {
+          shape <- "string";
+      }
+    }
+
+    json <- switch(shape,
+          r_dataframe_intermediate = toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
+          r_dataframe_columns =      toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"),
+          r_matrix =                 toJSON(results, matrix="rowmajor", digits=8, Date = "ISO8601"),
+          r_other_intermediate =     toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
+          r_other =                  toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"),
+          string =                   results,
+        );
 
     RJDBC::dbSendUpdate(out_conn, paste("INSERT INTO", resultTable, "(job_id, node, data, shape) values (?, ?, ?, ?)"), jobId, node, toString(json), shape);
 
