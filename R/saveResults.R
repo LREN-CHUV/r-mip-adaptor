@@ -19,9 +19,10 @@
 #' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
 #' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
 #' @param shape Hint about the shape of the data
+#' @param function Hint about the function used to produce the data
 #' @param conn The connection to the database, default to global variable out_conn
 #' @export
-saveResults <- function(results, jobId, node, resultTable, outFormat, shape, conn) {
+saveResults <- function(results, jobId, node, resultTable, outFormat, shape, fn, conn) {
 
     if (missing(jobId)) {
       jobId <- Sys.getenv("JOB_ID");
@@ -50,6 +51,9 @@ saveResults <- function(results, jobId, node, resultTable, outFormat, shape, con
           shape <- "string";
       }
     }
+    if (missing(fn)) {
+        fn <- "R";
+    }
     if (missing(conn)) {
         if (!exists("out_conn") || is.null(out_conn)) {
             conn <- connect2outdb();
@@ -66,7 +70,7 @@ saveResults <- function(results, jobId, node, resultTable, outFormat, shape, con
           r_other_intermediate =     toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
           toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"));
 
-    RJDBC::dbSendUpdate(conn, paste("INSERT INTO", resultTable, "(job_id, node, data, shape) values (?, ?, ?, ?)"), jobId, node, toString(json), shape);
+    RJDBC::dbSendUpdate(conn, paste("INSERT INTO", resultTable, "(job_id, node, data, shape, function) values (?, ?, ?, ?, ?)"), jobId, node, toString(json), shape, fn);
 
     # Disconnect from the databases
     disconnectdbs();
