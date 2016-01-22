@@ -1,11 +1,34 @@
-docker run -v (pwd):/home/docker/data:rw \
-    -v (pwd)/tests/local:/home/docker/data/tests \
+#!/bin/bash
+
+# Develop on a simulated Federation
+
+WORK_DIR="$(pwd)"
+shift
+
+if groups $USER | grep &>/dev/null '\bdocker\b'; then
+  DOCKER="docker"
+else
+  DOCKER="sudo docker"
+fi
+
+sudo chmod -R a+rw $WORK_DIR
+
+$DOCKER rm r-dev 2> /dev/null | true
+
+echo "Starting the results database..."
+./tests/analytics-db/start-db.sh
+echo
+echo "Starting the test database..."
+./tests/dummy-db/start-db.sh
+echo
+
+echo "> Test local node storing results as a dataset"
+echo
+$DOCKER run -v $WORK_DIR:/home/docker/data:rw \
+    -v $WORK_DIR/tests/test_local_dataset:/home/docker/data/tests \
     --rm --name r-test \
     --link dummydb:indb \
     --link analyticsdb:outdb \
-    -e JOB_ID=001 \
-    -e NODE=local \
-    -e PARAM_query="select * from brain_feature" \
     -e IN_JDBC_DRIVER=org.postgresql.Driver \
     -e IN_JDBC_JAR_PATH=/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar \
     -e IN_JDBC_URL=jdbc:postgresql://indb:5432/postgres \
@@ -16,12 +39,11 @@ docker run -v (pwd):/home/docker/data:rw \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
-    -e OUT_FORMAT=INTERMEDIATE_RESULTS \
-    registry.federation.mip.hbp/mip_tools/r-interactive check-package
+    registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
 
-docker run -i -t -v (pwd):/home/docker/data:rw \
-    -v (pwd)/tests/local:/home/docker/data/tests \
-    --rm --name r-test \
+$DOCKER run -v $WORK_DIR:/home/docker/data:rw \
+    -v $WORK_DIR/tests/test_federation_dataset:/home/docker/data/tests \
+    --rm -i -t --name r-dev \
     --link analyticsdb:indb \
     --link analyticsdb:outdb \
     -e JOB_ID=001 \
@@ -39,3 +61,8 @@ docker run -i -t -v (pwd):/home/docker/data:rw \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
     registry.federation.mip.hbp/mip_tools/r-interactive R
+
+sudo chown -R $USER:$USER $WORK_DIR
+
+./tests/analytics-db/stop-db.sh
+./tests/dummy-db/stop-db.sh

@@ -1,4 +1,4 @@
-library(testthat)
-library(hbpjdbcconnect)
+library(testthat);
+library(hbpjdbcconnect);
 
-test_check("hbpjdbcconnect")
+test_check("hbpjdbcconnect");
