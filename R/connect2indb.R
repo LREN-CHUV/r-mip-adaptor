@@ -45,4 +45,6 @@ connect2indb <- function(jdbcDriver, jarPath, url, user, password, schema) {
     if (schema != "") {
         RJDBC::dbSendUpdate(in_conn, paste("SET search_path TO '", schema, "'", sep = ""));
     }
+
+    return (in_conn);
 }

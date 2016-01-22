@@ -81,4 +81,5 @@ connect2outdb <- function(inJdbcDriver, inJarPath, inUrl, inUser, outJdbcDriver,
         out_conn <<- in_conn;
     }
 
+    return (out_conn);
 }

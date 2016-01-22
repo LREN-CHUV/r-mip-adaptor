@@ -4,12 +4,14 @@
 \alias{fetchData}
 \title{Fetch data from the input database}
 \usage{
-fetchData(query, inFormat)
+fetchData(query, inFormat, conn)
 }
 \arguments{
 \item{query}{The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query}
 
 \item{inFormat}{Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT}
+
+\item{conn}{The connection to the database, default to global variable in_conn}
 }
 \description{
 Environment variables:

@@ -15,23 +15,31 @@
 #'      IN_JDBC_SCHEMA : Optional schema by default for the database connection for input data
 #' @param query The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query
 #' @param inFormat Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT
+#' @param conn The connection to the database, default to global variable in_conn
 #' @export
-fetchData <- function(query, inFormat) {
+fetchData <- function(query, inFormat, conn) {
     if (missing(query)) {
         query <- Sys.getenv("PARAM_query");
     }
     if (missing(inFormat)) {
         inFormat <- Sys.getenv("IN_FORMAT", "OTHER");
     }
-
-    if (!exists("in_conn") || is.null(in_conn)) {
-        connect2indb();
+    if (missing(conn)) {
+        if (!exists("in_conn") || is.null(in_conn)) {
+            conn <- connect2indb();
+        } else {
+            conn <- in_conn;
+        }
     }
 
     # Fetch the data
-    y <- RJDBC::dbGetQuery(in_conn, query);
+    y <- RJDBC::dbGetQuery(conn, query);
 
     if (inFormat == "INTERMEDIATE_RESULTS") {
+        if (nrow(y) == 0) {
+            stop("No data found");
+        }
+
         yjson <- lapply(y[,'data'], fromJSON);
         if (y[1, "shape"] == "r_dataframe_intermediate") {
             y <- lapply(yjson, as.data.frame);

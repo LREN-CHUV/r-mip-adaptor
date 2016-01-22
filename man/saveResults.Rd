@@ -4,7 +4,7 @@
 \alias{saveResults}
 \title{Save the results into the output database}
 \usage{
-saveResults(results, jobId, node, resultTable, outFormat, shape)
+saveResults(results, jobId, node, resultTable, outFormat, shape, conn)
 }
 \arguments{
 \item{results}{The results to store in the database. The following types are supported: data frame, matrix, string.}
@@ -18,6 +18,8 @@ saveResults(results, jobId, node, resultTable, outFormat, shape)
 \item{outFormat}{Format requested for the output, default to value of environment parameter OUT_FORMAT}
 
 \item{shape}{Hint about the shape of the data}
+
+\item{conn}{The connection to the database, default to global variable out_conn}
 }
 \description{
 Environment variables:
