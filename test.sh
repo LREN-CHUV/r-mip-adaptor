@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+# TODO: consider https://github.com/sstephenson/bats to better report errors and test progress
+# since tests are encapsulated into separate commands
+# TODO: investigate why docker does not return an error code when a test fails.
+
 WORK_DIR="$(pwd)"
 
 if groups $USER | grep &>/dev/null '\bdocker\b'; then
