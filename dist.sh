@@ -17,6 +17,6 @@ $DOCKER rm r-dist 2> /dev/null | true
 # assuming that current folder contains the data
 $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     --rm --name r-dist \
-    registry.federation.mip.hbp/mip_tools/r-interactive dist-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
+    hbpmip/r-interactive dist-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
 
 sudo chown -R $USER:$USER $WORK_DIR
