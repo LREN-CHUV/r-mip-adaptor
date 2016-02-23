@@ -22,16 +22,16 @@ echo
 echo "Cheat sheet - run the following commands:"
 echo
 echo "setwd('/src')"
+echo "devtools::load_all()"
+echo "  # Load the code in the current project"
+echo
+echo "setwd('/src')"
 echo "formatR::tidy_dir(\"R\")"
 echo "  # Format your source code"
 echo
 echo "setwd('/src')"
 echo "lintr::lint_package()"
 echo "  # Checks the style of the source code"
-echo
-echo "setwd('/src')"
-echo "devtools::load_all()"
-echo "  # Load the code in the current project"
 echo
 echo "setwd('/src')"
 echo "devtools::document()"
