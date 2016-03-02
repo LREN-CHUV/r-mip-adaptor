@@ -20,7 +20,7 @@
 #' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
 #' @param shape Hint about the shape of the data. The following shapes are supported: string, pfa_json, pfa_yaml,
 #'              r_dataframe_intermediate, r_dataframe_columns, r_matrix, r_other_intermediate
-#' @param function Hint about the function used to produce the data
+#' @param fn Hint about the function used to produce the data
 #' @param conn The connection to the database, default to global variable out_conn
 #' @export
 saveResults <- function(results, jobId, node, resultTable, outFormat, shape, fn, conn) {
