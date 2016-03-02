@@ -18,7 +18,8 @@
 #' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE
 #' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
 #' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
-#' @param shape Hint about the shape of the data
+#' @param shape Hint about the shape of the data. The following shapes are supported: string, pfa_json, pfa_yaml,
+#'              r_dataframe_intermediate, r_dataframe_columns, r_matrix, r_other_intermediate
 #' @param function Hint about the function used to produce the data
 #' @param conn The connection to the database, default to global variable out_conn
 #' @export
@@ -64,6 +65,8 @@ saveResults <- function(results, jobId, node, resultTable, outFormat, shape, fn,
 
     json <- switch(shape,
           string =                   results,
+          pfa_json =                 results,
+          pfa_yaml =                 results,
           r_dataframe_intermediate = toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
           r_dataframe_columns =      toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"),
           r_matrix =                 toJSON(results, matrix="rowmajor", digits=8, Date = "ISO8601"),
