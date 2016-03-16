@@ -1,0 +1,85 @@
+#' Save an error into the output database
+#'
+#' Environment variables:
+#' 
+#' - Execution context:
+#'      JOB_ID : ID of the job
+#'      NODE : Node used for the execution of the script
+#'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
+#'      OUT_JDBC_DRIVER : class name of the JDBC driver for output results
+#'      OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results
+#'      OUT_JDBC_URL : JDBC connection URL for output results
+#'      OUT_JDBC_USER : User for the database connection for output results
+#'      OUT_JDBC_PASSWORD : Password for the database connection for output results
+#'      OUTPUT_FILE : File containing the output of R
+#'      ERROR_FILE : File containing the errors of R
+#' @param error The error to record.
+#' @param outputFile File containing the output of R, default to the value of environment variable OUTPUT_FILE.
+#' @param error File containing the error of R, default to the value of environment variable ERROR_FILE.
+#' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
+#' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE
+#' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
+#' @param fn Hint about the function used to produce the data
+#' @param conn The connection to the database, default to global variable out_conn
+#' @export
+saveError <- function(error, outputFile, errorFile, jobId, node, resultTable, fn, conn) {
+
+    if (missing(error)) {
+      error <- "An error occurred";
+    }
+    if (missing(outputFile)) {
+      outputFile <- Sys.getenv("OUTPUT_FILE", "/unknown/file");
+    }
+    if (missing(errorFile)) {
+      errorFile <- Sys.getenv("ERROR_FILE", "/unknown/file");
+    }
+    if (missing(jobId)) {
+      jobId <- Sys.getenv("JOB_ID");
+    }
+    if (missing(node)) {
+      node <- Sys.getenv("NODE");
+    }
+    if (missing(resultTable)) {
+      resultTable <- Sys.getenv("RESULT_TABLE", "job_result");
+    }
+    if (missing(fn)) {
+        fn <- "R";
+    }
+    if (missing(conn)) {
+        if (!exists("out_conn") || is.null(out_conn)) {
+            conn <- connect2outdb();
+        } else {
+            conn <- out_conn;
+        }
+    }
+    shape <- "error";
+    data <- "";
+
+    if (file.exists(outputFile)) {
+        # Capture some diagnostics
+        divertedOut <- F;
+        if (sink.number(type = "output") == 0) {
+          divertedOut <- T;
+          sink(outputFile, type="output", split=T, append=T);
+        }
+        print("DIAGNOSTICS");
+        print("-----------");
+        sessionInfo();
+        options();
+        Sys.getenv();
+        if (divertedOut) {
+          sink(NULL, type="output");
+        }
+        data <- paste(c("OUT", "-----", readlines(outputFile)), sep="\n");
+    }
+    if (file.exists(errorFile)) {
+        data <- paste(c(data, "ERROR", "-----", readlines(errorFile)), sep="\n");
+    }
+
+
+    RJDBC::dbSendUpdate(conn, paste("INSERT INTO", resultTable, "(job_id, node, error, data, shape, function) values (?, ?, ?, ?, ?)"), jobId, node, error, toString(json), shape, fn);
+
+    # Disconnect from the databases
+    disconnectdbs();
+
+}

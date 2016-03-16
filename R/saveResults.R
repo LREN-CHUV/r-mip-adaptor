@@ -13,6 +13,7 @@
 #'      OUT_JDBC_URL : JDBC connection URL for output results
 #'      OUT_JDBC_USER : User for the database connection for output results
 #'      OUT_JDBC_PASSWORD : Password for the database connection for output results
+#'      FUNCTION: Name of the function executed
 #' @param results The results to store in the database. The following types are supported: data frame, matrix, string.
 #' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
 #' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE
@@ -20,7 +21,7 @@
 #' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
 #' @param shape Hint about the shape of the data. The following shapes are supported: string, pfa_json, pfa_yaml,
 #'              r_dataframe_intermediate, r_dataframe_columns, r_matrix, r_other_intermediate
-#' @param fn Hint about the function used to produce the data
+#' @param fn Hint about the function used to produce the data,  defaults to the value of environment parameter FUNCTION
 #' @param conn The connection to the database, default to global variable out_conn
 #' @export
 saveResults <- function(results, jobId, node, resultTable, outFormat, shape, fn, conn) {
@@ -53,7 +54,7 @@ saveResults <- function(results, jobId, node, resultTable, outFormat, shape, fn,
       }
     }
     if (missing(fn)) {
-        fn <- "R";
+        fn <- Sys.getenv("FUNCTION", "R");
     }
     if (missing(conn)) {
         if (!exists("out_conn") || is.null(out_conn)) {
