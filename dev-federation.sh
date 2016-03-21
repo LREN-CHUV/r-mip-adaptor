@@ -39,10 +39,35 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
-    registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
+    hbpmip/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
+
+echo "Cheat sheet - run the following commands:"
+echo
+echo "setwd('/src')"
+echo "devtools::load_all()"
+echo "  # Load the code in the current project"
+echo
+echo "setwd('/src')"
+echo "formatR::tidy_dir(\"R\")"
+echo "  # Format your source code"
+echo
+echo "setwd('/src')"
+echo "lintr::lint_package()"
+echo "  # Checks the style of the source code"
+echo
+echo "setwd('/src')"
+echo "devtools::document()"
+echo "  # Generates the documentation"
+echo
+echo "setwd('/src')"
+echo "devtools::use_testthat()"
+echo "  # Setup the package to use testthat"
+echo
+echo "-----------------------------------------"
 
 $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
-    -v $WORK_DIR/tests/test_federation_dataset:/home/docker/data/tests \
+    -v $WORK_DIR/:/src/ \
+    -v $WORK_DIR/tests:/src/tests/ \
     --rm -i -t --name r-dev \
     --link analyticsdb:indb \
     --link analyticsdb:outdb \
@@ -60,7 +85,7 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
-    registry.federation.mip.hbp/mip_tools/r-interactive R
+    hbpmip/r-interactive R
 
 sudo chown -R $USER:$USER $WORK_DIR
 

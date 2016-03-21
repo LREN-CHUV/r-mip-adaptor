@@ -4,6 +4,9 @@ library(hbpjdbcconnect);
 
 test_that("We can read intermediate results from the federation database and store it back as results", {
 
+    Sys.setenv(JOB_ID='003');
+    Sys.setenv(PARAM_query="select * from job_result where job_id = '003'");
+
     d <- fetchData();
 
     expect_equal(nrow(d), 3);

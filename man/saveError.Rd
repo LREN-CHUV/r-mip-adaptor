@@ -11,6 +11,8 @@ saveError(error, outputFile, errorFile, jobId, node, resultTable, fn, conn)
 
 \item{outputFile}{File containing the output of R, default to the value of environment variable OUTPUT_FILE.}
 
+\item{errorFile}{File containing the error of R, default to the value of environment variable ERROR_FILE.}
+
 \item{jobId}{ID of the job, defaults to the value of environment parameter JOB_ID}
 
 \item{node}{Node used for the execution of the script, defaults to the value of environment parameter NODE}
@@ -20,8 +22,6 @@ saveError(error, outputFile, errorFile, jobId, node, resultTable, fn, conn)
 \item{fn}{Hint about the function used to produce the data}
 
 \item{conn}{The connection to the database, default to global variable out_conn}
-
-\item{error}{File containing the error of R, default to the value of environment variable ERROR_FILE.}
 }
 \description{
 Environment variables:

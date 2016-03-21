@@ -25,7 +25,7 @@ test_that("We can read data from the local database and store it back as results
 
     expect_equal(data, "[{\"id\":\"10247\",\"feature_name\":\"Hippocampus_L\",\"tissue1_volume\":0.0083559},{\"id\":\"10247\",\"feature_name\":\"Hippocampus_R\",\"tissue1_volume\":0.0084571},{\"id\":\"10011\",\"feature_name\":\"Hippocampus_L\",\"tissue1_volume\":0.0090518}]");
 
-    # Read the results back as if we weere on the Federation
+    # Read the results back as if we were on the Federation
 
     Sys.setenv(PARAM_query = paste("select * from job_result where job_id=",job_id,"", sep="'"));
     Sys.setenv(IN_FORMAT = "INTERMEDIATE_RESULTS");

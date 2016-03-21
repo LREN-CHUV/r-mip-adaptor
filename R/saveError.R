@@ -15,7 +15,7 @@
 #'      ERROR_FILE : File containing the errors of R
 #' @param error The error to record.
 #' @param outputFile File containing the output of R, default to the value of environment variable OUTPUT_FILE.
-#' @param error File containing the error of R, default to the value of environment variable ERROR_FILE.
+#' @param errorFile File containing the error of R, default to the value of environment variable ERROR_FILE.
 #' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
 #' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE
 #' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
@@ -56,28 +56,38 @@ saveError <- function(error, outputFile, errorFile, jobId, node, resultTable, fn
     data <- "";
 
     if (file.exists(outputFile)) {
-        # Capture some diagnostics
-        divertedOut <- F;
-        if (sink.number(type = "output") == 0) {
-          divertedOut <- T;
-          sink(outputFile, type="output", split=T, append=T);
+        if ("outFile" %in% ls(globalenv())) {
+            f <- outFile;
+        } else {
+            f <- file(outputFile, open="at");
+            if (sink.number(type = "output") == 0) {
+              sink(f, type="output", append=T);
+            }
         }
-        print("DIAGNOSTICS");
-        print("-----------");
+        # Capture some diagnostics
+        cat("DIAGNOSTICS\n");
+        cat("-----------\n");
         sessionInfo();
         options();
         Sys.getenv();
-        if (divertedOut) {
-          sink(NULL, type="output");
-        }
-        data <- paste(c("OUT", "-----", readLines(outputFile)), sep="\n");
+        sink(NULL, type="output");
+        flush(f);
+        close(f);
+        print(readLines(outputFile))
+        data <- paste(c("OUT", "-----", readLines(outputFile)), collapse="\n");
     }
     if (file.exists(errorFile)) {
-        data <- paste(c(data, "ERROR", "-----", readLines(errorFile)), sep="\n");
+        sink(NULL, type="message");
+        if ("errFile" %in% ls(globalenv())) {
+            f <- errFile;
+            flush(f);
+            close(f);
+        }
+        data <- paste(c(data, "ERROR", "-----", readLines(errorFile)), collapse="\n");
     }
 
 
-    RJDBC::dbSendUpdate(conn, paste("INSERT INTO", resultTable, "(job_id, node, error, data, shape, function) values (?, ?, ?, ?, ?)"), jobId, node, error, toString(json), shape, fn);
+    RJDBC::dbSendUpdate(conn, paste("INSERT INTO", resultTable, "(job_id, node, error, data, shape, function) values (?, ?, ?, ?, ?, ?)"), jobId, node, error, data, shape, fn);
 
     # Disconnect from the databases
     disconnectdbs();

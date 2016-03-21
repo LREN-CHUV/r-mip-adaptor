@@ -40,7 +40,7 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
     -e OUT_JDBC_USER=postgres \
     -e OUT_JDBC_PASSWORD=test \
-    registry.federation.mip.hbp/mip_tools/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
+    hbpmip/r-interactive check-package 2>&1 | sed -e "s|/home/docker/data|$WORK_DIR|g"
 
 echo
 echo "> Test federation node reading a dataset and storing this dataset as final result"
@@ -51,9 +51,7 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     --rm --name r-test \
     --link analyticsdb:indb \
     --link analyticsdb:outdb \
-    -e JOB_ID=001 \
     -e NODE=federation \
-    -e PARAM_query="select * from job_result" \
     -e IN_JDBC_DRIVER=org.postgresql.Driver \
     -e IN_JDBC_JAR_PATH=/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar \
     -e IN_JDBC_URL=jdbc:postgresql://indb:5432/postgres \

@@ -40,12 +40,11 @@ fetchData <- function(query, inFormat, conn) {
             stop("No data found");
         }
 
-        yjson <- lapply(y[,'data'], fromJSON);
-        if (y[1, "shape"] == "r_dataframe_intermediate") {
-            y <- lapply(yjson, as.data.frame);
-        } else {
-            y <- yjson;
-        }
+        y <- switch(y[1, "shape"],
+            "r_dataframe_intermediate" = lapply(lapply(y[,'data'], fromJSON), as.data.frame),
+            "error" = stop(y[,'error']),
+            lapply(y[,'data'], fromJSON)
+        );
         if (length(y) == 1) {
             y <- y[[1]];
         }
