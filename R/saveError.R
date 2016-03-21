@@ -70,10 +70,10 @@ saveError <- function(error, outputFile, errorFile, jobId, node, resultTable, fn
         if (divertedOut) {
           sink(NULL, type="output");
         }
-        data <- paste(c("OUT", "-----", readlines(outputFile)), sep="\n");
+        data <- paste(c("OUT", "-----", readLines(outputFile)), sep="\n");
     }
     if (file.exists(errorFile)) {
-        data <- paste(c(data, "ERROR", "-----", readlines(errorFile)), sep="\n");
+        data <- paste(c(data, "ERROR", "-----", readLines(errorFile)), sep="\n");
     }
 
 
