@@ -12,6 +12,11 @@ sudo chmod -R a+rw $WORK_DIR
 
 $DOCKER rm r-dev 2> /dev/null | true
 
+if pgrep -lf sshuttle > /dev/null ; then
+  echo "sshuttle detected. Please close this program as it messes with networking and prevents Docker links to work"
+  exit 1
+fi
+
 echo "Starting the results database..."
 ./tests/analytics-db/start-db.sh
 echo
