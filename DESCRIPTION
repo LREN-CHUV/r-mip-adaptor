@@ -1,12 +1,12 @@
-Package: hbpjdbcconnect
-Title: JDBC connection manager for HBP MIP platform
+Package: rmipadaptor
+Title: DBI connection manager for HBP MIP platform
 Version: 0.0.0.9000
 Authors@R: person("Ludovic", "Claude", email = "Ludovic.Claude@chuv.ch", role = c("aut", "cre"))
 Author: Ludovic Claude [aut, cre]
 Maintainer: Ludovic Claude <Ludovic.Claude@chuv.ch>
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.2.1), RJDBC, jsonlite
+    R (>= 3.2.1), DBI, jsonlite, RPostgreSQL
 License: MIT
 LazyData: true
 Suggests:
