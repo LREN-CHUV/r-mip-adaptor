@@ -1,0 +1,82 @@
+description: "R library supporting the integration of R algorithms into MIP runtime environment"
+
+long_description: |
+  This R library provides helper functions to load data and save results from the MIP runtime environment.
+
+  This environment, from the point of view of algorithms, uses Postgres to read features from tables and store the results back into a `job_result` table.
+
+authors:
+  - author:
+      name: Ludovic Claude
+      github_id: ludovicc
+      email:
+        - ludovic.claude@chuv.ch
+        - ludovic.claude54@gmail.com
+        - ludovic.claude54@googlemail.com
+    organisation: LREN-CHUV
+    organisation_badge: https://img.shields.io/badge/CHUV-LREN-AF4C64.svg
+  - author:
+      name: Shay Yaacoby
+      github_id: shay-y
+      email:
+        - shay66@gmail.com
+      organisation:
+        code: TAU
+        name: Tel Aviv University
+        badge: https://img.shields.io/badge/TAU-ICTAF-AD2C32.svg
+        url: "http://ictaf.tau.ac.il/index.asp?lang=eng"
+
+platform: MIP
+component:
+  mip_building_block: algorithm-factory
+  nature: library
+
+license:
+  name: Apache 2.0
+  badge: https://img.shields.io/badge/license-Apache--2.0-blue.svg
+  url: https://github.com/LREN-CHUV/r-mip-adaptor/blob/master/LICENSE
+
+code_repositories:
+  - name: chuv-gitlab/HBPMedical
+    visibility: private
+    url: https://___.chuv.ch/algorithm-factory/r-mip-adaptor/
+    git_clone: https://___.chuv.ch/algorithm-factory/r-mip-adaptor.git
+  - name: github/LREN-CHUV
+    visibility: public
+    url: https://github.io/LREN-CHUV/r-mip-adaptor/
+    git_clone: https://github.io/LREN-CHUV/r-mip-adaptor.git
+  - name: github/HBPMedical
+    visibility: public
+    url: https://github.io/HBPMedical/r-mip-adaptor/
+    git_clone: https://github.io/HBPMedical/r-mip-adaptor.git
+
+code_quality_checks:
+  codacy:
+    badge: https://api.codacy.com/project/badge/Grade/40c204886cbc4d3986662bfe19a546ba
+    url: "https://www.codacy.com/app/hbp-mip/r-mip-adaptor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LREN-CHUV/r-mip-adaptor&amp;utm_campaign=Badge_Grade"
+
+testing:
+  unit_testing:
+    sources: /tests
+    command: /tests/tesh.sh
+
+release_management:
+  current_version: 0.2.0
+  current_code_release: https://github.com/HBPMedical/r-mip-adaptor/archive/0.2.0.zip
+  release_script: 'publish.sh'
+
+continuous_integration: []
+
+distribution:
+git:
+  url: https://github.com/HBPMedical/r-mip-adaptor.git
+
+planning:
+  github:
+    name: Issues on Github
+    url: https://github.com/LREN-CHUV/r-mip-adaptor/issues
+
+related_projects:
+  - name: r-base-docker-images
+    mip_building_block: algorithm-factory
+    relationship: other-depends-on
