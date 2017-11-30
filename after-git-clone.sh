@@ -1,3 +1,3 @@
 #!/bin/sh
 
-git submodule update --init --recursive
+[ -x /usr/local/bin/pre-commit ] && pre-commit install

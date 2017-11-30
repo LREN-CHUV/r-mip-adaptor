@@ -1,5 +1,5 @@
 
-# hbpjdbcconnect R package
+# r-mip-adaptor R package
 
 This package provides helper functions to connect to a database via JDBC.
 

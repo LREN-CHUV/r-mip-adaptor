@@ -3,3 +3,6 @@
 .RData
 ..Rcheck/
 *.gz
+*~
+*.out
+*.log
