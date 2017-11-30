@@ -4,5 +4,5 @@
 #' @import jsonlite
 #' @aliases r-mip-adaptor package-r-mip-adaptor
 #' @title HBP - Database connections
-#' @name r-mip-adaptor
+#' @name rmipadaptor
 NULL
