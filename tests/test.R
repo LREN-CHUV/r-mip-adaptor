@@ -25,7 +25,7 @@ Sys.setenv(
 
 library(RPostgreSQL)
 library(jsonlite)
-  
+
 connect2indb()
 dbExistsTable(in_conn, "sample_data");
 connect2outdb()
@@ -36,9 +36,3 @@ data_in <- fetchData()
 saveResults(results = data_in, shape = "r_dataframe_columns")
 
 disconnectdbs()
-
-
-
-
-
-
