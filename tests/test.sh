@@ -38,6 +38,7 @@ trap _cleanup EXIT INT TERM
 
 echo "Starting the databases..."
 $DOCKER_COMPOSE up -d db
+$DOCKER_COMPOSE build r_test_local_dataset
 $DOCKER_COMPOSE run wait_dbs
 $DOCKER_COMPOSE run create_dbs
 
@@ -48,6 +49,7 @@ $DOCKER_COMPOSE run woken_db_setup
 
 echo
 echo "Run the tests"
+$DOCKER_COMPOSE run r_test_local_dataset
 
 echo
 # Cleanup

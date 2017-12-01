@@ -1,20 +1,20 @@
 #' Save an error into the output database
 #'
 #' Environment variables:
-#' 
+#'
 #' - Execution context:
 #'      JOB_ID : ID of the job
 #'      NODE : Node used for the execution of the script
 #'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
-#'      OUT_DBI_DRIVER: Class name of the DBI driver for output data
-#'      OUT_DBI_DBNAME: Database name for the database connection for output data
-#'      OUT_DBI_HOST  : Host name for the database connection for output data
-#'      OUT_DBI_PORT  : Port number for the database connection for output data
-#'      OUT_DBI_USER  : User for the database connection for output data
-#'      OUT_DBI_PASSWORD: Password for the database connection for output data
-#'      OUT_DBI_SCHEMA   : Optional schema by default for the database connection for output data
-#'      OUTPUT_FILE : File containing the output of R
-#'      ERROR_FILE : File containing the errors of R
+#'      OUT_DBI_DRIVER : Class name of the DBI driver for output data
+#'      OUT_DB_NAME    : Database name for the database connection for output data
+#'      OUT_DB_HOST    : Host name for the database connection for output data
+#'      OUT_DB_PORT    : Port number for the database connection for output data
+#'      OUT_DB_USER    : User for the database connection for output data
+#'      OUT_DB_PASSWORD: Password for the database connection for output data
+#'      OUT_DB_SCHEMA  : Optional schema by default for the database connection for output data
+#'      OUTPUT_FILE    : File containing the output of R
+#'      ERROR_FILE     : File containing the errors of R
 #' @param error The error to record.
 #' @param outputFile File containing the output of R, default to the value of environment variable OUTPUT_FILE.
 #' @param errorFile File containing the error of R, default to the value of environment variable ERROR_FILE.
@@ -33,7 +33,7 @@ saveError <- function(
   resultTable = Sys.getenv("RESULT_TABLE", "job_result"),
   fn          = "R",
   conn) {
-  
+
   if (missing(conn)) {
     if (!exists("out_conn") || is.null(out_conn)) {
       conn <- connect2outdb();
@@ -43,7 +43,7 @@ saveError <- function(
   }
   shape <- "error";
   data <- "";
-  
+
   if (file.exists(outputFile)) {
     if ("outFile" %in% ls(globalenv())) {
       f <- outFile;
@@ -74,12 +74,12 @@ saveError <- function(
     }
     data <- paste(c(data, "ERROR", "-----", readLines(errorFile)), collapse="\n");
   }
-  
+
   sql <- paste(
     "INSERT INTO", resultTable, "(job_id, node, error, data, shape, function) values (",
     DBI::dbQuoteString(conn, jobId), ",",
     DBI::dbQuoteString(conn, node), ",",
-    DBI::dbQuoteString(conn, error), ",", 
+    DBI::dbQuoteString(conn, error), ",",
     DBI::dbQuoteString(conn, data), ",",
     DBI::dbQuoteString(conn, shape), ",",
     DBI::dbQuoteString(conn, fn), ")")

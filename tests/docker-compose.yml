@@ -25,25 +25,25 @@ services:
       DB_PORT: 5432
       DB_ADMIN_USER: postgres
       DB_ADMIN_PASSWORD: test
-      DB1: data
+      DB1: datadb
       USER1: data
-      PASSWORD1: data
-      DB2: woken
+      PASSWORD1: datapwd
+      DB2: wokendb
       USER2: woken
-      PASSWORD2: woken
+      PASSWORD2: wokenpwd
     depends_on:
       - db
 
   sample_data_db_setup:
-    image: "hbpmip/sample-data-db-setup:0.4.0"
+    image: "hbpmip/sample-data-db-setup:0.4.1"
     container_name: "sample-data-db-setup"
     environment:
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: db
       FLYWAY_PORT: 5432
-      FLYWAY_DATABASE_NAME: data
+      FLYWAY_DATABASE_NAME: datadb
       FLYWAY_USER: data
-      FLYWAY_PASSWORD: data
+      FLYWAY_PASSWORD: datapwd
     depends_on:
       - db
 
@@ -55,8 +55,36 @@ services:
       FLYWAY_DBMS: postgresql
       FLYWAY_HOST: db
       FLYWAY_PORT: 5432
-      FLYWAY_DATABASE_NAME: woken
+      FLYWAY_DATABASE_NAME: wokendb
       FLYWAY_USER: woken
-      FLYWAY_PASSWORD: woken
+      FLYWAY_PASSWORD: wokenpwd
     depends_on:
       - db
+
+  r_test_local_dataset:
+    build:
+      context: ..
+      dockerfile: tests/Dockerfile.local
+    container_name: "r-mip-test"
+    command: test
+    restart: "no"
+    environment:
+      NODE: job_test
+      JOB_ID: 1
+      IN_DBI_DRIVER: PostgreSQL
+      IN_JDBC_DRIVER: org.postgresql.Driver
+      IN_DB_HOST: db
+      IN_DB_PORT: 5432
+      IN_DB_NAME: datadb
+      IN_DB_USER: data
+      IN_DB_PASSWORD: datapwd
+      OUT_DBI_DRIVER: PostgreSQL
+      OUT_JDBC_DRIVER: org.postgresql.Driver
+      OUT_JDBC_URL: jdbc:postgresql://db:5432/woken
+      OUT_DB_HOST: db
+      OUT_DB_PORT: 5432
+      OUT_DB_NAME: wokendb
+      OUT_DB_USER: woken
+      OUT_DB_PASSWORD: wokenpwd
+    links:
+      - "db:db"

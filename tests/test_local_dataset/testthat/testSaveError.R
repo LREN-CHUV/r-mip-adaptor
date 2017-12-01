@@ -1,6 +1,6 @@
 context("Local");
 
-library(hbpjdbcconnect);
+library(rmipadaptor);
 
 test_that("We save the fact that there was an error", {
     job_id <- "E01";
@@ -31,7 +31,7 @@ test_that("We save the fact that there was an error", {
     out_conn <- connect2outdb();
 
     # Get the results
-    results <- RJDBC::dbGetQuery(out_conn, "select * from job_result where job_id = ?", job_id);
+    results <- DBI::dbGetQuery(out_conn, paste("select * from job_result where job_id =", DBI::dbQuoteString(out_conn, job_id)));
     data <- results[1,'data'];
     error <- results[1,'error'];
 

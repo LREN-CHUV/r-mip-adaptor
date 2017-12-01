@@ -1,6 +1,6 @@
 context("Federation");
 
-library(hbpjdbcconnect);
+library(rmipadaptor);
 
 test_that("We can read intermediate results from the federation database and store it back as results", {
 

@@ -1,4 +1,4 @@
 library(testthat);
 library(rmipadaptor);
 
-test_check("rmipadaptor", reporter="stop");
+test_dir("/src/tests/testthat", reporter="stop");

@@ -1,4 +1,4 @@
 library(testthat)
-library(hbpjdbcconnect)
+library(rmipadaptor)
 
-test_check("hbpjdbcconnect", reporter="stop");
+test_check("rmipadaptor", reporter="stop");

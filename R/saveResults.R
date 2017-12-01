@@ -1,7 +1,7 @@
 #' Save the results into the output database
 #'
 #' Environment variables:
-#' 
+#'
 #' - Execution context:
 #'      JOB_ID        : ID of the job
 #'      NODE          : Node used for the execution of the script
@@ -9,12 +9,12 @@
 #'        Current values are PARTIAL_RESULTS, PRESENTATION
 #'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
 #'      OUT_DBI_DRIVER: Class name of the DBI driver for output data
-#'      OUT_DBI_DBNAME: Database name for the database connection for output data
-#'      OUT_DBI_HOST  : Host name for the database connection for output data
-#'      OUT_DBI_PORT  : Port number for the database connection for output data
-#'      OUT_DBI_USER  : User for the database connection for output data
-#'      OUT_DBI_PASSWORD: Password for the database connection for output data
-#'      OUT_DBI_SCHEMA   : Optional schema by default for the database connection for output data
+#'      OUT_DB_NAME   : Database name for the database connection for output data
+#'      OUT_DB_HOST   : Host name for the database connection for output data
+#'      OUT_DB_PORT   : Port number for the database connection for output data
+#'      OUT_DB_USER   : User for the database connection for output data
+#'      OUT_DB_PASSWORD: Password for the database connection for output data
+#'      OUT_DB_SCHEMA : Optional schema by default for the database connection for output data
 #'      FUNCTION: Name of the function executed
 #' @param results The results to store in the database. The following types are supported: data frame, matrix, string.
 #' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
@@ -41,7 +41,7 @@ saveResults <- function(
     shape <- switch(outFormat,
                     PARTIAL_RESULTS = "r_other_intermediate",
                     "r_other");
-    
+
     if (is.data.frame(results)) {
       shape <- switch(outFormat,
                       PARTIAL_RESULTS = "r_dataframe_intermediate",
@@ -52,7 +52,7 @@ saveResults <- function(
       shape <- "string";
     }
   }
-  
+
   if (missing(conn)) {
     if (!exists("out_conn") || is.null(out_conn)) {
       conn <- connect2outdb();
@@ -60,7 +60,7 @@ saveResults <- function(
       conn <- out_conn;
     }
   }
-  
+
   json <- switch(shape,
                  string =                   results,
                  pfa_json =                 results,
@@ -70,15 +70,15 @@ saveResults <- function(
                  r_matrix =                 toJSON(results, matrix="rowmajor", digits=8, Date = "ISO8601"),
                  r_other_intermediate =     toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
                  toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"));
-  
+
   sql <-paste(
     "INSERT INTO", resultTable,"(job_id, node, data, shape, function) values (",
   DBI::dbQuoteString(conn, jobId), ",", DBI::dbQuoteString(conn, node), ",", DBI::dbQuoteString(conn, toString(json)), ",", DBI::dbQuoteString(conn, shape), ",", DBI::dbQuoteString(conn, fn), ")")
-  
+
   DBI::dbSendStatement(
     conn,
     sql);
-  
+
   # Disconnect from the databases
   disconnectdbs();
 }
