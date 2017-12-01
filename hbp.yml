@@ -61,8 +61,8 @@ testing:
     command: /tests/tesh.sh
 
 release_management:
-  current_version: 0.3.0
-  current_code_release: https://github.com/HBPMedical/r-mip-adaptor/archive/0.3.0.zip
+  current_version: 0.4.0
+  current_code_release: https://github.com/HBPMedical/r-mip-adaptor/archive/0.4.0.zip
   release_script: 'publish.sh'
 
 continuous_integration: []
