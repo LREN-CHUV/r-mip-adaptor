@@ -22,7 +22,7 @@
 #' @param resultTable Name of the result table, defaults to the value of environment parameter RESULT_TABLE
 #' @param outFormat Format requested for the output, default to value of environment parameter OUT_FORMAT
 #' @param shape Hint about the shape of the data. The following shapes are supported: string, pfa_json, pfa_yaml,
-#'              r_dataframe_intermediate, r_dataframe_columns, r_matrix, r_other_intermediate
+#'              svg, plotly, highcharts, html, r_dataframe_intermediate, r_dataframe_columns, r_matrix, r_other_intermediate
 #' @param fn Hint about the function used to produce the data,  defaults to the value of environment parameter FUNCTION
 #' @param conn The connection to the database, default to global variable out_conn
 #' @export
@@ -61,10 +61,14 @@ saveResults <- function(
     }
   }
 
-  json <- switch(shape,
+  serialized_results <- switch(shape,
                  string =                   results,
                  pfa_json =                 results,
-                 pfa_yaml =                 results, # add here svg, plotly...
+                 pfa_yaml =                 results,
+                 svg =                      results,
+                 plotly =                   results,
+                 highcharts =               results,
+                 html =                     results,
                  r_dataframe_intermediate = toJSON(results, auto_unbox=TRUE, digits=8, Date = "ISO8601"),
                  r_dataframe_columns =      toJSON(results, dataframe="columns", digits=8, Date = "ISO8601"),
                  r_matrix =                 toJSON(results, matrix="rowmajor", digits=8, Date = "ISO8601"),
@@ -73,7 +77,7 @@ saveResults <- function(
 
   sql <-paste(
     "INSERT INTO", resultTable,"(job_id, node, data, shape, function) values (",
-  DBI::dbQuoteString(conn, jobId), ",", DBI::dbQuoteString(conn, node), ",", DBI::dbQuoteString(conn, toString(json)), ",", DBI::dbQuoteString(conn, shape), ",", DBI::dbQuoteString(conn, fn), ")")
+  DBI::dbQuoteString(conn, jobId), ",", DBI::dbQuoteString(conn, node), ",", DBI::dbQuoteString(conn, toString(serialized_results)), ",", DBI::dbQuoteString(conn, shape), ",", DBI::dbQuoteString(conn, fn), ")")
 
   DBI::dbSendStatement(
     conn,
