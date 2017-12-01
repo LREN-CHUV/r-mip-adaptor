@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## TODO: not functional anymore
+
 # Develop on a simulated Federation
 
 WORK_DIR="$(pwd)"
@@ -79,7 +81,7 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -e IN_JDBC_URL=jdbc:postgresql://indb:5432/postgres \
     -e IN_JDBC_USER=postgres \
     -e IN_JDBC_PASSWORD=test \
-    -e IN_FORMAT=INTERMEDIATE_RESULTS \
+    -e IN_FORMAT=PARTIAL_RESULTS \
     -e OUT_JDBC_DRIVER=org.postgresql.Driver \
     -e OUT_JDBC_JAR_PATH=/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar \
     -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \

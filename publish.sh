@@ -11,6 +11,8 @@ if test $count -gt 0; then
   exit 1
 fi
 
+./tests/test.sh
+
 select_part() {
   local choice=$1
   case "$choice" in
@@ -55,6 +57,8 @@ git pull --tags
 )
 
 updated_version=$(bumpversion --dry-run --list patch | grep current_version | sed -r s,"^.*=",,)
+
+./tests/test.sh
 
 git push
 git push --tags

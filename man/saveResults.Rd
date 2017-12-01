@@ -32,7 +32,7 @@ Environment variables:
      JOB_ID : ID of the job
      NODE : Node used for the execution of the script
      OUT_FORMAT : Hint for the exact shape of the Json stored in the database.
-       Current values are INTERMEDIATE_RESULTS, PRESENTATION
+       Current values are PARTIAL_RESULTS, PRESENTATION
      RESULT_TABLE: Name of the result table, defaults to 'job_result'
      OUT_JDBC_DRIVER : class name of the JDBC driver for output results
      OUT_JDBC_JAR_PATH : path to the JDBC driver jar for output results

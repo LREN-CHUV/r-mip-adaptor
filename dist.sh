@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## TODO: not functional anymore
+
 WORK_DIR="$(pwd)"
 shift
 

@@ -2,7 +2,7 @@ FROM hbpmip/r-base-build:3.4.2-2
 
 COPY tests/test_local_dataset/testthat.R /src/tests/
 COPY tests/test_local_dataset/testthat/ /src/tests/testthat/
-COPY CHANGELOG DESCRIPTION LICENSE NAMESPACE README.md /src/rmipadaptor/
+COPY CHANGELOG.md DESCRIPTION LICENSE NAMESPACE README.md /src/rmipadaptor/
 COPY R/ /src/rmipadaptor/R/
 COPY man/ /src/rmipadaptor/man/
 

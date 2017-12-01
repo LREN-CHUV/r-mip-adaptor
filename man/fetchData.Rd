@@ -9,7 +9,7 @@ fetchData(query, inFormat, conn)
 \arguments{
 \item{query}{The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query}
 
-\item{inFormat}{Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT}
+\item{inFormat}{Hint for the exact shape of the data stored in the database. Possible values are PARTIAL_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT}
 
 \item{conn}{The connection to the database, default to global variable in_conn}
 }
@@ -21,7 +21,7 @@ Environment variables:
      PARAM_query  : SQL query producing the dataframe to analyse
 - Execution context:
      IN_FORMAT : Hint for the exact shape of the data stored in the database.
-       Possible values are INTERMEDIATE_RESULTS, OTHER
+       Possible values are PARTIAL_RESULTS, OTHER
      IN_JDBC_DRIVER : class name of the JDBC driver for input data
      IN_JDBC_JAR_PATH : path to the JDBC driver jar for input data
      IN_JDBC_URL : JDBC connection URL for input data

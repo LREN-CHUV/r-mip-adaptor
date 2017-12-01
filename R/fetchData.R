@@ -15,7 +15,7 @@
 #'      IN_DB_PASSWORD : Password for the database connection for input data
 #'      IN_DB_SCHEMA   : Optional schema by default for the database connection for input data
 #' @param query The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query
-#' @param inFormat Hint for the exact shape of the data stored in the database. Possible values are INTERMEDIATE_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT
+#' @param inFormat Hint for the exact shape of the data stored in the database. Possible values are PARTIAL_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT
 #' @param conn The connection to the database, default to global variable in_conn
 #' @export
 fetchData <- function(

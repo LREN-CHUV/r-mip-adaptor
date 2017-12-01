@@ -7,7 +7,7 @@ test_that("We save the fact that there was an error", {
     Sys.setenv(JOB_ID = job_id);
     Sys.setenv(NODE = "local");
     Sys.setenv(PARAM_query = "select * from brain_feature");
-    Sys.setenv(OUT_FORMAT = "INTERMEDIATE_RESULTS");
+    Sys.setenv(OUT_FORMAT = "PARTIAL_RESULTS");
     Sys.setenv(ERROR_FILE = "/tmp/errors.txt");
     Sys.setenv(OUTPUT_FILE = "/tmp/output.txt");
 
