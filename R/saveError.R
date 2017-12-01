@@ -79,7 +79,7 @@ saveError <- function(
     "INSERT INTO", resultTable, "(job_id, node, error, data, shape, function) values (",
     DBI::dbQuoteString(conn, jobId), ",",
     DBI::dbQuoteString(conn, node), ",",
-    DBI::dbQuoteString(conn, error), ",",
+    DBI::dbQuoteString(conn, as.character(error)), ",",
     DBI::dbQuoteString(conn, data), ",",
     DBI::dbQuoteString(conn, shape), ",",
     DBI::dbQuoteString(conn, fn), ")")
