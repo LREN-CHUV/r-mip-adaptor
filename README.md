@@ -1,4 +1,4 @@
-[![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) [![TAU](https://img.shields.io/badge/TAU-ICTAF-AD2C32.svg)](http://ictaf.tau.ac.il/index.asp?lang=eng) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40c204886cbc4d3986662bfe19a546ba)](https://www.codacy.com/app/hbp-mip/r-mip-adaptor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HBPMedical/r-mip-adaptor&amp;utm_campaign=Badge_Grade)
+[![CHUV](https://img.shields.io/badge/CHUV-LREN-AF4C64.svg)](https://www.unil.ch/lren/en/home.html) [![TAU](https://img.shields.io/badge/TAU-ICTAF-AD2C32.svg)](http://ictaf.tau.ac.il/index.asp?lang=eng) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/40c204886cbc4d3986662bfe19a546ba)](https://www.codacy.com/app/hbp-mip/r-mip-adaptor?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HBPMedical/r-mip-adaptor&amp;utm_campaign=Badge_Grade) [![CircleCI](https://circleci.com/gh/HBPMedical/r-mip-adaptor.svg?style=svg)](https://circleci.com/gh/HBPMedical/r-mip-adaptor)
 
 # r-mip-adaptor R package
 
