@@ -19,11 +19,8 @@ if pgrep -lf sshuttle > /dev/null ; then
   exit 1
 fi
 
-echo "Starting the results database..."
-./tests/analytics-db/start-db.sh
-echo
-echo "Starting the test database..."
-./tests/dummy-db/start-db.sh
+echo "Starting the databases..."
+./tests/up.sh
 echo
 
 echo "Cheat sheet - run the following commands:"
@@ -54,23 +51,24 @@ $DOCKER run -v $WORK_DIR:/home/docker/data:rw \
     -v $WORK_DIR/:/src/ \
     -v $WORK_DIR/tests:/src/tests/ \
     -i -t --rm --name r-dev \
-    --link dummydb:indb \
-    --link analyticsdb:outdb \
+    --link db:db \
+    --network tests_default \
     -e JOB_ID=001 \
     -e NODE=local \
-    -e IN_JDBC_DRIVER=org.postgresql.Driver \
-    -e IN_JDBC_JAR_PATH=/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar \
-    -e IN_JDBC_URL=jdbc:postgresql://indb:5432/postgres \
-    -e IN_JDBC_USER=postgres \
-    -e IN_JDBC_PASSWORD=test \
-    -e OUT_JDBC_DRIVER=org.postgresql.Driver \
-    -e OUT_JDBC_JAR_PATH=/usr/lib/R/libraries/postgresql-9.4-1201.jdbc41.jar \
-    -e OUT_JDBC_URL=jdbc:postgresql://outdb:5432/postgres \
-    -e OUT_JDBC_USER=postgres \
-    -e OUT_JDBC_PASSWORD=test \
+    -e IN_DBI_DRIVER=PostgreSQL \
+    -e IN_HOST=db \
+    -e IN_PORT=5432 \
+    -e IN_DATABASE=datadb \
+    -e IN_USER=data \
+    -e IN_PASSWORD=datapwd \
+    -e OUT_DBI_DRIVER=PostgreSQL \
+    -e OUT_HOST=db \
+    -e OUT_PORT=5432 \
+    -e OUT_DATABASE=wokendb \
+    -e OUT_USER=woken \
+    -e OUT_PASSWORD=wokenpwd \
     hbpmip/r-interactive R
 
 sudo chown -R $USER:$USER $WORK_DIR
 
-./tests/analytics-db/stop-db.sh
-./tests/dummy-db/stop-db.sh
+#./tests/stop.sh

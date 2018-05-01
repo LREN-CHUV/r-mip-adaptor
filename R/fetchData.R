@@ -8,12 +8,12 @@
 #'      IN_FORMAT : Hint for the exact shape of the data stored in the database.
 #'        Possible values are PARTIAL_RESULTS, TABULAR_DATA
 #'      IN_DBI_DRIVER  : Class name of the DBI driver for input data
-#'      IN_DB_NAME     : Database name for the database connection for input data
-#'      IN_DB_HOST     : Host name for the database connection for input data
-#'      IN_DB_PORT     : Port number for the database connection for input data
-#'      IN_DB_USER     : User for the database connection for input data
-#'      IN_DB_PASSWORD : Password for the database connection for input data
-#'      IN_DB_SCHEMA   : Optional schema by default for the database connection for input data
+#'      IN_DATABASE    : Database name for the database connection for input data
+#'      IN_HOST        : Host name for the database connection for input data
+#'      IN_PORT        : Port number for the database connection for input data
+#'      IN_USER        : User for the database connection for input data
+#'      IN_PASSWORD    : Password for the database connection for input data
+#'      IN_SCHEMA      : Optional schema by default for the database connection for input data
 #' @param query The SQL query to execute on the input database, defaults to the value of environment parameter PARAM_query
 #' @param inFormat Hint for the exact shape of the data stored in the database. Possible values are PARTIAL_RESULTS, OTHER. Defaults to the value of environment parameter IN_FORMAT
 #' @param conn The connection to the database, default to global variable in_conn

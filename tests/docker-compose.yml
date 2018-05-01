@@ -72,19 +72,16 @@ services:
       NODE: job_test
       JOB_ID: 1
       IN_DBI_DRIVER: PostgreSQL
-      IN_JDBC_DRIVER: org.postgresql.Driver
-      IN_DB_HOST: db
-      IN_DB_PORT: 5432
-      IN_DB_NAME: datadb
-      IN_DB_USER: data
-      IN_DB_PASSWORD: datapwd
+      IN_HOST: db
+      IN_PORT: 5432
+      IN_DATABASE: datadb
+      IN_USER: data
+      IN_PASSWORD: datapwd
       OUT_DBI_DRIVER: PostgreSQL
-      OUT_JDBC_DRIVER: org.postgresql.Driver
-      OUT_JDBC_URL: jdbc:postgresql://db:5432/woken
-      OUT_DB_HOST: db
-      OUT_DB_PORT: 5432
-      OUT_DB_NAME: wokendb
-      OUT_DB_USER: woken
-      OUT_DB_PASSWORD: wokenpwd
+      OUT_HOST: db
+      OUT_PORT: 5432
+      OUT_DATABASE: wokendb
+      OUT_USER: woken
+      OUT_PASSWORD: wokenpwd
     links:
       - "db:db"

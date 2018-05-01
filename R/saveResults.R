@@ -3,19 +3,19 @@
 #' Environment variables:
 #'
 #' - Execution context:
-#'      JOB_ID        : ID of the job
-#'      NODE          : Node used for the execution of the script
-#'      OUT_FORMAT    : Hint for the exact shape of the Json stored in the database.
+#'      JOB_ID          : ID of the job
+#'      NODE            : Node used for the execution of the script
+#'      OUT_FORMAT      : Hint for the exact shape of the Json stored in the database.
 #'        Current values are PARTIAL_RESULTS, PRESENTATION
-#'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
-#'      OUT_DBI_DRIVER: Class name of the DBI driver for output data
-#'      OUT_DB_NAME   : Database name for the database connection for output data
-#'      OUT_DB_HOST   : Host name for the database connection for output data
-#'      OUT_DB_PORT   : Port number for the database connection for output data
-#'      OUT_DB_USER   : User for the database connection for output data
-#'      OUT_DB_PASSWORD: Password for the database connection for output data
-#'      OUT_DB_SCHEMA : Optional schema by default for the database connection for output data
-#'      FUNCTION: Name of the function executed
+#'      RESULT_TABLE    : Name of the result table, defaults to 'job_result'
+#'      OUT_DBI_DRIVER  : Class name of the DBI driver for output data
+#'      OUT_DATABASE    : Database name for the database connection for output data
+#'      OUT_HOST        : Host name for the database connection for output data
+#'      OUT_PORT        : Port number for the database connection for output data
+#'      OUT_USER        : User for the database connection for output data
+#'      OUT_PASSWORD    : Password for the database connection for output data
+#'      OUT_SCHEMA      : Optional default schema used to locate tables for the output data
+#'      FUNCTION        : Name of the function executed
 #' @param results The results to store in the database. The following types are supported: data frame, matrix, string.
 #' @param jobId ID of the job, defaults to the value of environment parameter JOB_ID
 #' @param node Node used for the execution of the script, defaults to the value of environment parameter NODE

@@ -3,18 +3,18 @@
 #' Environment variables:
 #'
 #' - Execution context:
-#'      JOB_ID : ID of the job
-#'      NODE : Node used for the execution of the script
-#'      RESULT_TABLE: Name of the result table, defaults to 'job_result'
-#'      OUT_DBI_DRIVER : Class name of the DBI driver for output data
-#'      OUT_DB_NAME    : Database name for the database connection for output data
-#'      OUT_DB_HOST    : Host name for the database connection for output data
-#'      OUT_DB_PORT    : Port number for the database connection for output data
-#'      OUT_DB_USER    : User for the database connection for output data
-#'      OUT_DB_PASSWORD: Password for the database connection for output data
-#'      OUT_DB_SCHEMA  : Optional schema by default for the database connection for output data
-#'      OUTPUT_FILE    : File containing the output of R
-#'      ERROR_FILE     : File containing the errors of R
+#'      JOB_ID          : ID of the job
+#'      NODE            : Node used for the execution of the script
+#'      RESULT_TABLE    : Name of the result table, defaults to 'job_result'
+#'      OUT_DBI_DRIVER  : Class name of the DBI driver for output data
+#'      OUT_DATABASE    : Database name for the database connection for output data
+#'      OUT_HOST        : Host name for the database connection for output data
+#'      OUT_PORT        : Port number for the database connection for output data
+#'      OUT_USER        : User for the database connection for output data
+#'      OUT_PASSWORD    : Password for the database connection for output data
+#'      OUT_SCHEMA      : Optional default schema used to locate tables for the output data
+#'      OUTPUT_FILE     : File containing the output of R
+#'      ERROR_FILE      : File containing the errors of R
 #' @param error The error to record.
 #' @param outputFile File containing the output of R, default to the value of environment variable OUTPUT_FILE.
 #' @param errorFile File containing the error of R, default to the value of environment variable ERROR_FILE.
