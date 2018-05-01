@@ -41,7 +41,7 @@ saveError <- function(
       conn <- out_conn;
     }
   }
-  shape <- "error";
+  shape <- "text/plain+error";
   data <- "";
 
   if (file.exists(outputFile)) {
